@@ -14,8 +14,7 @@ init (){
     this.gameOver = false;
     this.scoreText;
     this.Resize;
-    this.time = 0;
-    this.TimeTxt;
+
 }
 
 preload (){
@@ -29,7 +28,7 @@ preload (){
 }
 
 create (){
-    this.onEvent = this.time +=5;  
+    
      //  The game's background
      this.add.image(400, 300, 'background');
 
@@ -44,10 +43,9 @@ create (){
      this.platforms.create(300, 400, 'ground');
      this.music=this.sound.add('bgm');
  
- this.music.play();
-this.timedEvent= time.addEvent({delay:1000, callback: this.onEvent, callbackScope:this,loop:true});
- 
- 
+    this.music.play();
+
+
  
      // The player's settings and physics property for bouncing
      this.player = this.physics.add.sprite(100, 450, 'man');
@@ -95,24 +93,23 @@ this.timedEvent= time.addEvent({delay:1000, callback: this.onEvent, callbackScop
  
      //  The score
      this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
-     /// display timer
-     this.TimeTxt= this.add.text(16,40, 'time:5', {fontSize: '30px', fill:'#000'});
- 
+
      //  Collision code 
-     this.physics.add.collider(player, platforms);
-     this.physics.add.collider(souls, platforms);
-     this.physics.add.collider(enemy, platforms);
+     this.physics.add.collider(this.player, this.platforms);
+     this.physics.add.collider(this.souls, this.platforms);
+     this.physics.add.collider(this.enemy, this.platforms);
  
      
-     this.physics.add.overlap(player, souls, collectSoul, null, this);
+     this.physics.add.overlap(this.player, this.souls, this.collectSoul, null, this);
  
-     this.physics.add.collider(player, enemy, hitEnemy, null, this);
-
-   
+     this.physics.add.collider(this.player, this.enemy, this.hitEnemy, null, this);
+     
+    }
 
 update ()
 {
-    this.TimeTxt.setText('Time'+ this.time);
+    
+
     if (this.gameOver)
     {
         return;
@@ -183,22 +180,22 @@ collectSoul (player, soul)
     soul.disableBody(true, true);
 
     ///resize the spirtes body when souls collide with the sprite
-    Resize += 1
-    if (Resize == 1){
-        player.setScale(1.1);
+    this.Resize += 1
+    if (this.Resize == 1){
+        this.player.setScale(1.1);
     }
-    else if (Resize == 2){
-        player.setScale(1.2);
+    else if (this.Resize == 2){
+        this.player.setScale(1.2);
     }
-    else if (Resize == 3){
-        player.setScale(1.3);
+    else if (this.Resize == 3){
+        this.player.setScale(1.3);
     }
-    else if (Resize == 4){
-        player.setScale(1.4);
+    else if (this.Resize == 4){
+        this.player.setScale(1.4);
     }
     else {
-        player.setScale(1);
-        Resize = 0
+        this.player.setScale(1);
+        this.Resize = 0
     }
 
     
@@ -237,4 +234,6 @@ hitEnemy (player, keeper)
     this.gameOver = true;
     
 }
-}}
+
+
+}
